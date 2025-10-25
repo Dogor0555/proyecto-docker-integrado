@@ -1,0 +1,12 @@
+{
+  "name": "proyecto-docker-integrado",
+  "version": "1.0.0",
+  "description": "API para Segundo Parcial - Implantación de Sistemas",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
