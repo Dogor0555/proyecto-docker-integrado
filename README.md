@@ -77,3 +77,117 @@ docker run -d \
 # Verificar que los datos persisten
 docker exec postgres-db psql -U admin -d parcial_db -c "SELECT * FROM estudiantes;"
 
+#  EJERCICIO 3 - INTEGRACIÓN CON DOCKER COMPOSE
+
+###  Objetivo
+Integrar los servicios en un único archivo docker-compose.yml con red, dependencias y healthcheck.
+
+### 📁 Archivos del Ejercicio 3
+- `docker-compose.yml` - Orquestación de servicios (versión 3.8)
+- `.env` - Variables de entorno
+- `docs/evidencias/ejercicio3/` - Capturas de evidencia
+
+---
+
+##  CONFIGURACIÓN DOCKER COMPOSE
+
+###  docker-compose.yml
+```yaml
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: parcial-db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: parcial-api
+    environment:
+      DB_HOST: db
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_PORT: 5432
+      API_PORT: 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app_net
+    restart: unless-stopped
+
+volumes:
+  db_data:
+    external: true
+
+networks:
+  app_net:
+    driver: bridge
+
+
+## env
+DB_HOST=db
+DB_USER=admin
+DB_PASSWORD=12345
+DB_NAME=parcial_db
+DB_PORT=5432
+API_PORT=3000
+
+## COMANDOS DE EJECUCIÓN
+## Levantar todos los servicios
+
+docker compose up -d --build
+
+##Ver estado de los servicios
+
+docker compose ps
+
+## Probar endpoint
+
+# Endpoint básico
+curl http://localhost:3000/
+
+# Health check
+curl http://localhost:3000/health
+
+# Health check de base de datos
+curl http://localhost:3000/db-health
+
+# Listar estudiantes
+curl http://localhost:3000/estudiantes
+
+# Crear nuevo estudiante
+curl -X POST http://localhost:3000/estudiantes \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nombre": "Estudiante Docker Compose",
+    "expediente": "EXP-DC-001", 
+    "codigo_estudiantil": "COD-DC-001"
+  }'
+
+  # Detener sin eliminar volúmenes
+docker compose down
+
+# Detener y eliminar volúmenes
+docker compose down -v
