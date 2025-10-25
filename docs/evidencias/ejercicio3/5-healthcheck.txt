@@ -1,0 +1,23 @@
+            "Health": {
+                "Status": "healthy",
+                "FailingStreak": 0,
+                "Log": [
+                    {
+                        "Start": "2025-10-25T03:01:26.456301504Z",
+                        "End": "2025-10-25T03:01:26.482896614Z",
+                        "ExitCode": 0,
+                        "Output": "/var/run/postgresql:5432 - accepting connections\n"
+                    },
+                    {
+--
+            "Healthcheck": {
+                "Test": [
+                    "CMD-SHELL",
+                    "pg_isready -U admin -d parcial_db"
+                ],
+                "Interval": 10000000000,
+                "Timeout": 5000000000,
+                "StartPeriod": 30000000000,
+                "Retries": 5
+            },
+            "Image": "postgres:15-alpine",

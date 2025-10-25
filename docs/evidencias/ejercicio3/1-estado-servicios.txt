@@ -1,0 +1,3 @@
+NAME          IMAGE                           COMMAND                  SERVICE   CREATED         STATUS                   PORTS
+parcial-api   proyecto-docker-integrado-api   "docker-entrypoint.s…"   api       9 minutes ago   Up 8 minutes             0.0.0.0:3000->3000/tcp
+parcial-db    postgres:15-alpine              "docker-entrypoint.s…"   db        9 minutes ago   Up 9 minutes (healthy)   0.0.0.0:5432->5432/tcp

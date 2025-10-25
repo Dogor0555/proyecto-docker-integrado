@@ -1,0 +1,8 @@
+ id |             nombre              | expediente | codigo_estudiantil |       fecha_creacion       
+----+---------------------------------+------------+--------------------+----------------------------
+  1 | Marcos Steven Bonilla Navarrete | 25610      | BN22I04001         | 2025-10-25 02:12:48.356421
+  2 | Ana María García López          | 25611      | GL22I04002         | 2025-10-25 02:12:48.356421
+  3 | Carlos José Hernández           | 25612      | HE22I04003         | 2025-10-25 02:12:48.356421
+  4 | Laura Patricia Martínez         | 25613      | MA22I04004         | 2025-10-25 02:12:48.356421
+(4 rows)
+

@@ -1,0 +1,2 @@
+local     db_data
+local     proyecto-docker-integrado_db_data

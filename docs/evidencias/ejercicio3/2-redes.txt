@@ -1,0 +1,7 @@
+NETWORK ID     NAME                                DRIVER    SCOPE
+b3ebfc449a47   bridge                              bridge    local
+fb5f91eed23c   docker_default                      bridge    local
+e63ad2fc072a   host                                host      local
+fed9fe83c574   none                                null      local
+141d811315cc   proyecto-docker-integrado_app_net   bridge    local
+9499ea39d93b   todo-app_todo-network               bridge    local
